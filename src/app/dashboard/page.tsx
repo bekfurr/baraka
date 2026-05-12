@@ -4,8 +4,13 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
 import { Briefcase, Clock, CheckCircle, TrendingUp } from 'lucide-react';
+import { useLang } from '@/store/useLang';
+import { t } from '@/lib/translations';
 
 export default function DashboardOverview() {
+  const { lang } = useLang();
+  const dict = t[lang];
+
   const [stats, setStats] = useState({
     activeJobs: 0,
     completedJobs: 0,
@@ -13,9 +18,7 @@ export default function DashboardOverview() {
     aiMatches: 0
   });
 
-  // Simulated fetching from Supabase (Since we might not have the tables created yet)
   useEffect(() => {
-    // In a real app, we'd query: await supabase.from('jobs').select('count', {count: 'exact'})
     setTimeout(() => {
       setStats({
         activeJobs: Math.floor(Math.random() * 5) + 1,
@@ -29,41 +32,40 @@ export default function DashboardOverview() {
   return (
     <div className="space-y-8 animate-in fade-in slide-in-from-bottom-4 duration-700">
       <header>
-        <h1 className="text-3xl font-bold text-white mb-2">Overview</h1>
-        <p className="text-gray-400">Welcome to your real-time activity dashboard.</p>
+        <h1 className="text-3xl font-bold text-white mb-2">{dict.overview}</h1>
+        <p className="text-gray-400">{dict.welcomeDash}</p>
       </header>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard 
-          title="Active Projects" 
+          title={dict.activeProjects} 
           value={stats.activeJobs} 
           icon={<Briefcase className="w-6 h-6 text-[var(--secondary)]" />} 
-          trend="+2 this week"
+          trend="+2"
         />
         <StatCard 
-          title="Completed" 
+          title={dict.completed} 
           value={stats.completedJobs} 
           icon={<CheckCircle className="w-6 h-6 text-green-400" />} 
-          trend="Top 10% in platform"
+          trend="Top 10%"
         />
         <StatCard 
-          title="Earnings / Spent" 
+          title={dict.earnings} 
           value={`$${stats.totalEarnings}`} 
           icon={<TrendingUp className="w-6 h-6 text-[var(--accent)]" />} 
-          trend="+15% vs last month"
+          trend="+15%"
         />
         <StatCard 
-          title="New AI Matches" 
+          title={dict.newAIMatches} 
           value={stats.aiMatches} 
           icon={<Clock className="w-6 h-6 text-[var(--primary)]" />} 
-          trend="Action required"
+          trend="New"
         />
       </div>
 
       <div className="glass-panel p-8">
-        <h2 className="text-xl font-bold text-white mb-6">Recent Dynamic Activity</h2>
+        <h2 className="text-xl font-bold text-white mb-6">{dict.recentActivity}</h2>
         <div className="space-y-4">
-          {/* Dynamic Feed Placeholder */}
           <ActivityItem 
             title="AI Match Found: Frontend Development for SaaS" 
             time="2 hours ago"
@@ -82,7 +84,7 @@ export default function DashboardOverview() {
         </div>
         <div className="mt-6">
            <Link href="/dashboard/ai-match" className="text-[var(--primary)] hover:underline text-sm font-medium">
-             View all AI Matches &rarr;
+             {dict.viewAllAI} &rarr;
            </Link>
         </div>
       </div>
@@ -104,11 +106,6 @@ function StatCard({ title, value, icon, trend }: any) {
 }
 
 function ActivityItem({ title, time, type }: any) {
-  const colorMap: any = {
-    match: 'text-[var(--primary)]',
-    system: 'text-gray-400',
-    finance: 'text-[var(--accent)]',
-  };
   return (
     <div className="flex items-center justify-between py-3 border-b border-white/5 last:border-0">
       <div className="flex items-center gap-3">

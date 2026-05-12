@@ -5,11 +5,17 @@ import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
 import { LogOut, Home, Briefcase, User, Sparkles } from 'lucide-react';
+import { useLang } from '@/store/useLang';
+import { t } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function DashboardLayout({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const [loading, setLoading] = useState(true);
   const [profile, setProfile] = useState<any>(null);
+
+  const { lang } = useLang();
+  const dict = t[lang];
 
   useEffect(() => {
     const checkUser = async () => {
@@ -41,9 +47,10 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
   }
 
   return (
-    <div className="min-h-screen flex flex-col md:flex-row bg-transparent">
+    <div className="min-h-screen flex flex-col md:flex-row bg-transparent relative">
+      <LanguageSwitcher />
       {/* Sidebar */}
-      <aside className="w-full md:w-64 glass-panel m-4 md:mr-0 md:h-[calc(100vh-2rem)] flex flex-col">
+      <aside className="w-full md:w-64 glass-panel m-4 md:mr-0 md:h-[calc(100vh-2rem)] flex flex-col z-10">
         <div className="p-6 border-b border-[var(--glass-border)]">
           <h2 className="text-2xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">Baraka</h2>
           <p className="text-xs text-gray-400 mt-1 capitalize">{profile?.role} Dashboard</p>
@@ -51,16 +58,16 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
         
         <nav className="flex-1 p-4 space-y-2">
           <Link href="/dashboard" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-            <Home className="w-5 h-5 text-[var(--secondary)]" /> Overview
+            <Home className="w-5 h-5 text-[var(--secondary)]" /> {dict.overview}
           </Link>
           <Link href="/dashboard/jobs" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-            <Briefcase className="w-5 h-5 text-[var(--accent)]" /> {profile?.role === 'client' ? 'My Postings' : 'Find Jobs'}
+            <Briefcase className="w-5 h-5 text-[var(--accent)]" /> {profile?.role === 'client' ? dict.myPostings : dict.findJobs}
           </Link>
           <Link href="/dashboard/ai-match" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-[var(--primary)]/10 transition-all border border-transparent hover:border-[var(--primary)]/30">
-            <Sparkles className="w-5 h-5 text-[var(--primary)]" /> AI Match
+            <Sparkles className="w-5 h-5 text-[var(--primary)]" /> {dict.aiMatchMenu}
           </Link>
           <Link href="/dashboard/profile" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all">
-            <User className="w-5 h-5 text-gray-400" /> Profile
+            <User className="w-5 h-5 text-gray-400" /> {dict.profile}
           </Link>
         </nav>
 
@@ -78,14 +85,14 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
             onClick={handleLogout}
             className="w-full flex items-center justify-center gap-2 px-4 py-2 rounded-lg text-red-400 hover:bg-red-500/10 transition-all"
           >
-            <LogOut className="w-4 h-4" /> Logout
+            <LogOut className="w-4 h-4" /> {dict.logout}
           </button>
         </div>
       </aside>
 
       {/* Main Content */}
-      <main className="flex-1 p-4 md:p-8 overflow-y-auto">
-        <div className="max-w-6xl mx-auto">
+      <main className="flex-1 p-4 md:p-8 overflow-y-auto mt-12 md:mt-0">
+        <div className="max-w-6xl mx-auto pt-8 md:pt-0">
           {children}
         </div>
       </main>

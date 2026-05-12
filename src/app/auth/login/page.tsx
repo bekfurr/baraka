@@ -4,9 +4,15 @@ import { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { supabase } from '@/lib/supabase';
 import Link from 'next/link';
+import { useLang } from '@/store/useLang';
+import { t } from '@/lib/translations';
+import LanguageSwitcher from '@/components/LanguageSwitcher';
 
 export default function Login() {
   const router = useRouter();
+  const { lang } = useLang();
+  const dict = t[lang];
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -34,10 +40,11 @@ export default function Login() {
   };
 
   return (
-    <div className="glass-panel p-8">
-      <div className="text-center mb-8">
-        <h2 className="text-3xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">Welcome Back</h2>
-        <p className="text-gray-400 mt-2">Log in to your Baraka account</p>
+    <div className="glass-panel p-8 relative">
+      <LanguageSwitcher />
+      <div className="text-center mb-8 mt-6">
+        <h2 className="text-3xl font-bold bg-gradient-to-r from-[var(--primary)] to-[var(--secondary)] bg-clip-text text-transparent">{dict.welcomeBack}</h2>
+        <p className="text-gray-400 mt-2">{dict.loginText}</p>
       </div>
 
       {error && (
@@ -48,7 +55,7 @@ export default function Login() {
 
       <form onSubmit={handleLogin} className="space-y-4">
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Email</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">{dict.email}</label>
           <input 
             type="email" 
             required
@@ -60,7 +67,7 @@ export default function Login() {
         </div>
 
         <div>
-          <label className="block text-sm font-medium text-gray-300 mb-1">Password</label>
+          <label className="block text-sm font-medium text-gray-300 mb-1">{dict.password}</label>
           <input 
             type="password" 
             required
@@ -76,13 +83,13 @@ export default function Login() {
           disabled={loading}
           className="w-full py-4 mt-6 rounded-xl bg-gradient-to-r from-[var(--primary)] to-fuchsia-600 text-white font-bold hover:shadow-[0_0_20px_rgba(217,70,239,0.4)] transition-all disabled:opacity-50 disabled:cursor-not-allowed"
         >
-          {loading ? 'Logging in...' : 'Log In'}
+          {loading ? dict.loggingIn : dict.loginBtn}
         </button>
       </form>
 
       <div className="mt-6 text-center">
         <p className="text-gray-400 text-sm">
-          Don't have an account? <Link href="/auth/register" className="text-[var(--secondary)] hover:underline">Sign up</Link>
+          {dict.dontHave} <Link href="/auth/register" className="text-[var(--secondary)] hover:underline">{dict.signUp}</Link>
         </p>
       </div>
     </div>
