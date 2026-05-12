@@ -10,7 +10,7 @@ export default function ProfilePage() {
   const { lang } = useLang();
   const dict = t[lang];
   const [profile, setProfile] = useState<any>(null);
-  const [services, setServices] = useState<any[]>([]);
+  const [jobs, setJobs] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
   const [savingProfile, setSavingProfile] = useState(false);
   
@@ -18,10 +18,10 @@ export default function ProfilePage() {
   const [location, setLocation] = useState('');
   const [bio, setBio] = useState('');
 
-  // Service Form
-  const [showAddService, setShowAddService] = useState(false);
-  const [newService, setNewService] = useState({ title: '', description: '', price: '', category: '' });
-  const [addingService, setAddingService] = useState(false);
+  // Job Form (For Clients)
+  const [showAddJob, setShowAddJob] = useState(false);
+  const [newJob, setNewJob] = useState({ title: '', description: '', budget: '', category: '' });
+  const [addingJob, setAddingJob] = useState(false);
 
   useEffect(() => {
     fetchData();
@@ -36,9 +36,9 @@ export default function ProfilePage() {
         setLocation(profileData.location || '');
         setBio(profileData.bio || '');
         
-        if (profileData.role === 'freelancer') {
-          const { data: serviceData } = await supabase.from('services').select('*').eq('freelancer_id', session.user.id).order('created_at', { ascending: false });
-          setServices(serviceData || []);
+        if (profileData.role === 'client') {
+          const { data: jobData } = await supabase.from('jobs').select('*').eq('client_id', session.user.id).order('created_at', { ascending: false });
+          setJobs(jobData || []);
         }
       }
     }
@@ -54,25 +54,25 @@ export default function ProfilePage() {
     fetchData();
   };
 
-  const handleAddService = async (e: React.FormEvent) => {
+  const handleAddJob = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!profile) return;
-    setAddingService(true);
-    await supabase.from('services').insert([{
-      freelancer_id: profile.id,
-      title: newService.title,
-      description: newService.description,
-      price: parseFloat(newService.price) || 0,
-      category: newService.category
+    setAddingJob(true);
+    await supabase.from('jobs').insert([{
+      client_id: profile.id,
+      title: newJob.title,
+      description: newJob.description,
+      budget: parseFloat(newJob.budget) || 0,
+      category: newJob.category
     }]);
-    setNewService({ title: '', description: '', price: '', category: '' });
-    setShowAddService(false);
-    setAddingService(false);
+    setNewJob({ title: '', description: '', budget: '', category: '' });
+    setShowAddJob(false);
+    setAddingJob(false);
     fetchData();
   };
 
-  const handleDeleteService = async (id: string) => {
-    await supabase.from('services').delete().eq('id', id);
+  const handleDeleteJob = async (id: string) => {
+    await supabase.from('jobs').delete().eq('id', id);
     fetchData();
   };
 
@@ -108,55 +108,55 @@ export default function ProfilePage() {
         </button>
       </form>
 
-      {/* Services Section (Only for Freelancers) */}
-      {profile?.role === 'freelancer' && (
+      {/* Jobs Section (Only for Clients) */}
+      {profile?.role === 'client' && (
         <div className="max-w-3xl">
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-2xl font-bold text-white">{dict.myServices}</h2>
-            <button onClick={() => setShowAddService(!showAddService)} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--secondary)] text-white font-bold hover:bg-[var(--secondary-hover)] transition-all">
-              <Plus className="w-4 h-4" /> {dict.addService}
+            <h2 className="text-2xl font-bold text-white">{dict.myJobs}</h2>
+            <button onClick={() => setShowAddJob(!showAddJob)} className="flex items-center gap-2 px-4 py-2 rounded-lg bg-[var(--secondary)] text-white font-bold hover:bg-[var(--secondary-hover)] transition-all">
+              <Plus className="w-4 h-4" /> {dict.addJob}
             </button>
           </div>
 
-          {showAddService && (
-            <form onSubmit={handleAddService} className="glass-panel p-6 mb-6 space-y-4 border-[var(--secondary)]/50">
+          {showAddJob && (
+            <form onSubmit={handleAddJob} className="glass-panel p-6 mb-6 space-y-4 border-[var(--secondary)]/50">
               <div className="grid grid-cols-2 gap-4">
                 <div className="col-span-2">
-                  <label className="block text-sm text-gray-300 mb-1">{dict.serviceTitle}</label>
-                  <input required type="text" value={newService.title} onChange={(e) => setNewService({...newService, title: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" />
+                  <label className="block text-sm text-gray-300 mb-1">{dict.jobTitle}</label>
+                  <input required type="text" value={newJob.title} onChange={(e) => setNewJob({...newJob, title: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" />
                 </div>
                 <div className="col-span-2">
-                  <label className="block text-sm text-gray-300 mb-1">{dict.serviceDesc}</label>
-                  <textarea required value={newService.description} onChange={(e) => setNewService({...newService, description: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none resize-none" rows={3}></textarea>
+                  <label className="block text-sm text-gray-300 mb-1">{dict.jobDesc}</label>
+                  <textarea required value={newJob.description} onChange={(e) => setNewJob({...newJob, description: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none resize-none" rows={3}></textarea>
                 </div>
                 <div>
-                  <label className="block text-sm text-gray-300 mb-1">{dict.price} ($)</label>
-                  <input required type="number" value={newService.price} onChange={(e) => setNewService({...newService, price: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" />
+                  <label className="block text-sm text-gray-300 mb-1">{dict.budget} ($)</label>
+                  <input required type="number" value={newJob.budget} onChange={(e) => setNewJob({...newJob, budget: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" />
                 </div>
                 <div>
                   <label className="block text-sm text-gray-300 mb-1">{dict.category}</label>
-                  <input required type="text" value={newService.category} onChange={(e) => setNewService({...newService, category: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" placeholder="e.g. Web Dev" />
+                  <input required type="text" value={newJob.category} onChange={(e) => setNewJob({...newJob, category: e.target.value})} className="w-full px-4 py-2 rounded bg-black/20 border border-white/10 text-white outline-none" placeholder="e.g. Web Dev" />
                 </div>
               </div>
-              <button type="submit" disabled={addingService} className="px-6 py-2 rounded bg-[var(--secondary)] text-white font-bold mt-4">{addingService ? <Loader2 className="w-5 h-5 animate-spin" /> : dict.add}</button>
+              <button type="submit" disabled={addingJob} className="px-6 py-2 rounded bg-[var(--secondary)] text-white font-bold mt-4">{addingJob ? <Loader2 className="w-5 h-5 animate-spin" /> : dict.add}</button>
             </form>
           )}
 
           <div className="space-y-4">
-            {services.length === 0 ? (
-              <p className="text-gray-400">{dict.noServices}</p>
+            {jobs.length === 0 ? (
+              <p className="text-gray-400">{dict.noJobs}</p>
             ) : (
-              services.map(service => (
-                <div key={service.id} className="glass-panel p-5 flex justify-between items-start group">
+              jobs.map(job => (
+                <div key={job.id} className="glass-panel p-5 flex justify-between items-start group">
                   <div>
-                    <h3 className="text-xl font-bold text-white mb-1">{service.title}</h3>
-                    <p className="text-sm text-gray-400 mb-2">{service.description}</p>
+                    <h3 className="text-xl font-bold text-white mb-1">{job.title}</h3>
+                    <p className="text-sm text-gray-400 mb-2">{job.description}</p>
                     <div className="flex gap-2">
-                      <span className="text-xs bg-[var(--primary)]/20 text-[var(--primary)] px-2 py-1 rounded">{service.category}</span>
-                      <span className="text-xs bg-[var(--accent)]/20 text-[var(--accent)] px-2 py-1 rounded">${service.price}</span>
+                      <span className="text-xs bg-[var(--primary)]/20 text-[var(--primary)] px-2 py-1 rounded">{job.category}</span>
+                      <span className="text-xs bg-[var(--accent)]/20 text-[var(--accent)] px-2 py-1 rounded">${job.budget}</span>
                     </div>
                   </div>
-                  <button onClick={() => handleDeleteService(service.id)} className="text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-500/20 rounded">
+                  <button onClick={() => handleDeleteJob(job.id)} className="text-red-400 opacity-0 group-hover:opacity-100 transition-opacity p-2 hover:bg-red-500/20 rounded">
                     <Trash2 className="w-5 h-5" />
                   </button>
                 </div>

@@ -61,21 +61,21 @@ export const t = {
     topRecs: "Top Recommendations",
     connect: "Connect",
 
-    // Profile & Services
+    // Profile & Jobs
     editProfile: "Edit Profile",
     location: "Location",
     bio: "Bio",
     saveChanges: "Save Changes",
     saving: "Saving...",
-    myServices: "My Services",
-    addService: "Add Service",
-    serviceTitle: "Service Title",
-    serviceDesc: "Description",
-    price: "Price",
+    myJobs: "My Posted Jobs",
+    addJob: "Post a Job",
+    jobTitle: "Job Title",
+    jobDesc: "Description",
+    budget: "Budget",
     category: "Category",
-    add: "Add",
-    searchServices: "Search Services...",
-    noServices: "No services found.",
+    add: "Post Job",
+    searchJobs: "Search Jobs...",
+    noJobs: "No jobs found.",
     startChat: "Start Chat",
     
     // Chat
@@ -145,21 +145,21 @@ export const t = {
     topRecs: "Eng yaxshi tavsiyalar",
     connect: "Bog'lanish",
 
-    // Profile & Services
+    // Profile & Jobs
     editProfile: "Profilni tahrirlash",
     location: "Manzil",
     bio: "O'zingiz haqingizda",
     saveChanges: "Saqlash",
     saving: "Saqlanmoqda...",
-    myServices: "Mening xizmatlarim",
-    addService: "Xizmat qo'shish",
-    serviceTitle: "Xizmat nomi",
-    serviceDesc: "Tavsifi",
-    price: "Narxi",
+    myJobs: "Men joylagan ishlar",
+    addJob: "Ish joylash",
+    jobTitle: "Ish nomi",
+    jobDesc: "Tavsifi",
+    budget: "Budjet",
     category: "Kategoriya",
-    add: "Qo'shish",
-    searchServices: "Xizmatlarni qidirish...",
-    noServices: "Xizmatlar topilmadi.",
+    add: "Joylash",
+    searchJobs: "Ishlarni qidirish...",
+    noJobs: "Ishlar topilmadi.",
     startChat: "Chatni boshlash",
 
     // Chat
@@ -229,21 +229,21 @@ export const t = {
     topRecs: "Лучшие рекомендации",
     connect: "Связаться",
 
-    // Profile & Services
+    // Profile & Jobs
     editProfile: "Редактировать профиль",
     location: "Местоположение",
     bio: "О себе",
     saveChanges: "Сохранить",
     saving: "Сохранение...",
-    myServices: "Мои услуги",
-    addService: "Добавить услугу",
-    serviceTitle: "Название услуги",
-    serviceDesc: "Описание",
-    price: "Цена",
+    myJobs: "Мои вакансии",
+    addJob: "Разместить вакансию",
+    jobTitle: "Название работы",
+    jobDesc: "Описание",
+    budget: "Бюджет",
     category: "Категория",
-    add: "Добавить",
-    searchServices: "Поиск услуг...",
-    noServices: "Услуги не найдены.",
+    add: "Разместить",
+    searchJobs: "Поиск работы...",
+    noJobs: "Работа не найдена.",
     startChat: "Начать чат",
 
     // Chat

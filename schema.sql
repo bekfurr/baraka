@@ -27,34 +27,35 @@ CREATE POLICY "Users can update own profile."
   ON public.profiles FOR UPDATE
   USING ( auth.uid() = id );
 
--- 2. Services Table (Freelancer Offerings)
-CREATE TABLE IF NOT EXISTS public.services (
+-- 2. Jobs Table (Client Postings)
+CREATE TABLE IF NOT EXISTS public.jobs (
   id uuid DEFAULT gen_random_uuid() PRIMARY KEY,
-  freelancer_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
+  client_id uuid REFERENCES public.profiles(id) ON DELETE CASCADE NOT NULL,
   title text NOT NULL,
   description text NOT NULL,
-  price numeric NOT NULL,
+  budget numeric NOT NULL,
   category text,
+  status text DEFAULT 'open',
   created_at timestamp with time zone DEFAULT timezone('utc'::text, now()) NOT NULL
 );
 
-ALTER TABLE public.services ENABLE ROW LEVEL SECURITY;
+ALTER TABLE public.jobs ENABLE ROW LEVEL SECURITY;
 
-CREATE POLICY "Services are viewable by everyone."
-  ON public.services FOR SELECT
+CREATE POLICY "Jobs are viewable by everyone."
+  ON public.jobs FOR SELECT
   USING ( true );
 
-CREATE POLICY "Freelancers can insert their own services."
-  ON public.services FOR INSERT
-  WITH CHECK ( auth.uid() = freelancer_id );
+CREATE POLICY "Clients can insert their own jobs."
+  ON public.jobs FOR INSERT
+  WITH CHECK ( auth.uid() = client_id );
 
-CREATE POLICY "Freelancers can update their own services."
-  ON public.services FOR UPDATE
-  USING ( auth.uid() = freelancer_id );
+CREATE POLICY "Clients can update their own jobs."
+  ON public.jobs FOR UPDATE
+  USING ( auth.uid() = client_id );
 
-CREATE POLICY "Freelancers can delete their own services."
-  ON public.services FOR DELETE
-  USING ( auth.uid() = freelancer_id );
+CREATE POLICY "Clients can delete their own jobs."
+  ON public.jobs FOR DELETE
+  USING ( auth.uid() = client_id );
 
 -- 3. Chats/Messages Table
 CREATE TABLE IF NOT EXISTS public.messages (
