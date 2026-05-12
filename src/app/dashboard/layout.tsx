@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import { supabase } from '@/lib/supabase';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { LogOut, Home, Briefcase, User, Sparkles } from 'lucide-react';
+import { LogOut, Home, Briefcase, User, Sparkles, MessageSquare } from 'lucide-react';
 import { useLang } from '@/store/useLang';
 import { t } from '@/lib/translations';
 import LanguageSwitcher from '@/components/LanguageSwitcher';
@@ -62,6 +62,9 @@ export default function DashboardLayout({ children }: { children: React.ReactNod
           </Link>
           <Link href="/dashboard/jobs" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all">
             <Briefcase className="w-5 h-5 text-[var(--accent)]" /> {profile?.role === 'client' ? dict.myPostings : dict.findJobs}
+          </Link>
+          <Link href="/dashboard/chat" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-white/5 transition-all">
+            <MessageSquare className="w-5 h-5 text-green-400" /> {dict.chatMenu}
           </Link>
           <Link href="/dashboard/ai-match" className="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-300 hover:text-white hover:bg-[var(--primary)]/10 transition-all border border-transparent hover:border-[var(--primary)]/30">
             <Sparkles className="w-5 h-5 text-[var(--primary)]" /> {dict.aiMatchMenu}

@@ -48,6 +48,7 @@ export const t = {
     aiMatchMenu: "AI Match",
     profile: "Profile",
     logout: "Logout",
+    chatMenu: "Messages",
 
     // AI Match
     aiMatchmaking: "AI Matchmaking",
@@ -59,6 +60,28 @@ export const t = {
     findMatchesBtn: "Find Matches",
     topRecs: "Top Recommendations",
     connect: "Connect",
+
+    // Profile & Services
+    editProfile: "Edit Profile",
+    location: "Location",
+    bio: "Bio",
+    saveChanges: "Save Changes",
+    saving: "Saving...",
+    myServices: "My Services",
+    addService: "Add Service",
+    serviceTitle: "Service Title",
+    serviceDesc: "Description",
+    price: "Price",
+    category: "Category",
+    add: "Add",
+    searchServices: "Search Services...",
+    noServices: "No services found.",
+    startChat: "Start Chat",
+    
+    // Chat
+    chat: "Chat",
+    typeMessage: "Type a message...",
+    send: "Send"
   },
   uz: {
     // Landing
@@ -109,6 +132,7 @@ export const t = {
     aiMatchMenu: "AI Moslashuv",
     profile: "Profil",
     logout: "Chiqish",
+    chatMenu: "Xabarlar",
 
     // AI Match
     aiMatchmaking: "AI bilan moslashuv",
@@ -120,6 +144,28 @@ export const t = {
     findMatchesBtn: "Mosliklarni topish",
     topRecs: "Eng yaxshi tavsiyalar",
     connect: "Bog'lanish",
+
+    // Profile & Services
+    editProfile: "Profilni tahrirlash",
+    location: "Manzil",
+    bio: "O'zingiz haqingizda",
+    saveChanges: "Saqlash",
+    saving: "Saqlanmoqda...",
+    myServices: "Mening xizmatlarim",
+    addService: "Xizmat qo'shish",
+    serviceTitle: "Xizmat nomi",
+    serviceDesc: "Tavsifi",
+    price: "Narxi",
+    category: "Kategoriya",
+    add: "Qo'shish",
+    searchServices: "Xizmatlarni qidirish...",
+    noServices: "Xizmatlar topilmadi.",
+    startChat: "Chatni boshlash",
+
+    // Chat
+    chat: "Chat",
+    typeMessage: "Xabar yozing...",
+    send: "Yuborish"
   },
   ru: {
     // Landing
@@ -170,6 +216,7 @@ export const t = {
     aiMatchMenu: "ИИ-совпадения",
     profile: "Профиль",
     logout: "Выйти",
+    chatMenu: "Сообщения",
 
     // AI Match
     aiMatchmaking: "ИИ Подбор",
@@ -181,5 +228,27 @@ export const t = {
     findMatchesBtn: "Найти совпадения",
     topRecs: "Лучшие рекомендации",
     connect: "Связаться",
+
+    // Profile & Services
+    editProfile: "Редактировать профиль",
+    location: "Местоположение",
+    bio: "О себе",
+    saveChanges: "Сохранить",
+    saving: "Сохранение...",
+    myServices: "Мои услуги",
+    addService: "Добавить услугу",
+    serviceTitle: "Название услуги",
+    serviceDesc: "Описание",
+    price: "Цена",
+    category: "Категория",
+    add: "Добавить",
+    searchServices: "Поиск услуг...",
+    noServices: "Услуги не найдены.",
+    startChat: "Начать чат",
+
+    // Chat
+    chat: "Чат",
+    typeMessage: "Введите сообщение...",
+    send: "Отправить"
   }
 };
